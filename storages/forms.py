@@ -1,6 +1,7 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
 from django.contrib.auth.models import User
+from .models import UploadedFile
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -54,3 +55,40 @@ class CustomUserCreationForm(UserCreationForm):
             )
         }
 
+class LoginUser(forms.Form):
+    username = forms.CharField(
+        label='имя пользователя',
+        max_length=255,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+    password = forms.CharField(
+        label='пароль',
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
+
+class UploadedFileForm(forms.ModelForm):
+    class Meta:
+
+        model = UploadedFile
+        fields = ('name', 'file')
+        widgets = {
+            'file' : forms.FileInput(
+                attrs={
+                    'class': 'form-control',
+                }
+            ),
+            'name': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+
+                }
+            )
+        }
